@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -30,6 +31,13 @@ enum class OrbState(val labelRes: Int, val spinMs: Int, val pulseMs: Int) {
 
 @Composable
 fun JarvisOrb(state: OrbState, animated: Boolean, modifier: Modifier = Modifier) {
+    key(state) {
+        OrbBody(state, animated, modifier)
+    }
+}
+
+@Composable
+private fun OrbBody(state: OrbState, animated: Boolean, modifier: Modifier) {
     val primary = MaterialTheme.colorScheme.primary
     val secondary = MaterialTheme.colorScheme.secondary
 
