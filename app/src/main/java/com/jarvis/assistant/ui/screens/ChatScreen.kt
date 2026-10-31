@@ -1,5 +1,6 @@
 package com.jarvis.assistant.ui.screens
 
+import com.jarvis.assistant.automation.CommandRouter
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -106,6 +107,12 @@ fun ChatScreen(store: SettingsStore, hub: VoiceHub) {
         val clean = text.trim()
         if (clean.isEmpty() || loading) return
         messages.add(UiMessage(clean, true))
+    val local = CommandRouter.handle(context, clean)
+    if (local != null) {
+        messages.add(UiMessage(local, false))
+        if (spoken && store.speakReplies) hub.speak(local)
+        return
+    }
         loading = true
         hub.setThinking(true)
         val base = messages

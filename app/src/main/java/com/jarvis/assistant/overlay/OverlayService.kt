@@ -1,5 +1,6 @@
 package com.jarvis.assistant.overlay
 
+import com.jarvis.assistant.automation.CommandRouter
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -475,6 +476,14 @@ class OverlayService : Service() {
         if (clean.isEmpty() || loading) return
         appendLine("> ", clean, CYAN)
         session.add(AiMessage(true, clean))
+    val local = CommandRouter.handle(applicationContext, clean)
+    if (local != null) {
+        session.add(AiMessage(false, local))
+        lastReply = local
+        appendLine("jarvis> ", local, GREEN)
+        if (spoken && store.speakReplies) hub.speak(local)
+        return
+    }
         loading = true
         hub.setThinking(true)
         val base = session.takeLast(20).dropWhile { !it.fromUser }
