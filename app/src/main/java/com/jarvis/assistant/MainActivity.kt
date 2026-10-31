@@ -1,20 +1,18 @@
 package com.jarvis.assistant
 
-import android.app.Activity
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
-import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import com.jarvis.assistant.ui.navigation.JarvisApp
+import com.jarvis.assistant.ui.theme.JarvisTheme
 
-class MainActivity : Activity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val tv = TextView(this)
-        tv.text = "JARVIS online"
-        tv.textSize = 28f
-        tv.setTextColor(Color.CYAN)
-        tv.setBackgroundColor(Color.BLACK)
-        tv.gravity = Gravity.CENTER
-        setContentView(tv)
+        setContent {
+            JarvisTheme {
+                JarvisApp()
+            }
+        }
     }
 }

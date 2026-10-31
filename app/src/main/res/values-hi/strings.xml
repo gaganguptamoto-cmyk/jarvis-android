@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JARVIS</string>
+    <string name="nav_dashboard">डैशबोर्ड</string>
+    <string name="nav_chat">चैट</string>
+    <string name="nav_settings">सेटिंग्स</string>
+    <string name="dashboard_status">बेस ऐप तैयार है। AI, आवाज़ और ऑटोमेशन आगे के फेज़ में जुड़ेंगे।</string>
+    <string name="chat_coming">चैट फेज़ 5 (AI इंटीग्रेशन) में आएगी।</string>
+    <string name="settings_version">वर्ज़न: %1$s</string>
+    <string name="settings_language">भाषा आपके फ़ोन की भाषा के अनुसार बदलती है (English / हिंदी)।</string>
+</resources>
