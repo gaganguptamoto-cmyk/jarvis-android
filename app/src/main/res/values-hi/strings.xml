@@ -4,8 +4,29 @@
     <string name="nav_dashboard">डैशबोर्ड</string>
     <string name="nav_chat">चैट</string>
     <string name="nav_settings">सेटिंग्स</string>
-    <string name="dashboard_status">बेस ऐप तैयार है। AI, आवाज़ और ऑटोमेशन आगे के फेज़ में जुड़ेंगे।</string>
-    <string name="chat_coming">चैट फेज़ 5 (AI इंटीग्रेशन) में आएगी।</string>
+
+    <string name="orb_idle">तैयार</string>
+    <string name="orb_listening">सुन रहा है</string>
+    <string name="orb_thinking">सोच रहा है</string>
+    <string name="orb_speaking">बोल रहा है</string>
+    <string name="orb_preview_note">सिर्फ़ एनिमेशन का प्रीव्यू। असली स्थितियाँ आवाज़ और AI के साथ आएँगी।</string>
+
+    <string name="status_ai_title">AI ब्रेन</string>
+    <string name="status_ai_value">जुड़ा नहीं है (फेज़ 5)</string>
+    <string name="status_voice_title">आवाज़</string>
+    <string name="status_voice_value">अभी उपलब्ध नहीं (फेज़ 6)</string>
+    <string name="status_overlay_title">फ्लोटिंग असिस्टेंट</string>
+    <string name="status_overlay_value">अभी उपलब्ध नहीं (फेज़ 7)</string>
+    <string name="status_automation_title">फ़ोन ऑटोमेशन</string>
+    <string name="status_automation_value">अभी उपलब्ध नहीं (फेज़ 8)</string>
+
+    <string name="chat_hint">संदेश लिखें</string>
+    <string name="chat_send">भेजें</string>
+    <string name="chat_empty">अभी कोई संदेश नहीं।</string>
+    <string name="chat_not_connected">AI अभी जुड़ा नहीं है। यह फेज़ 5 से काम करेगा।</string>
+
+    <string name="settings_dark_theme">डार्क थीम</string>
+    <string name="settings_animations">एनिमेशन</string>
     <string name="settings_version">वर्ज़न: %1$s</string>
     <string name="settings_language">भाषा आपके फ़ोन की भाषा के अनुसार बदलती है (English / हिंदी)।</string>
 </resources>

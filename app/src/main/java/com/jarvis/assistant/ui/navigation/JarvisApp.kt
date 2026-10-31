@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jarvis.assistant.R
+import com.jarvis.assistant.core.SettingsStore
 import com.jarvis.assistant.ui.screens.ChatScreen
 import com.jarvis.assistant.ui.screens.DashboardScreen
 import com.jarvis.assistant.ui.screens.SettingsScreen
@@ -26,7 +27,7 @@ enum class Route(val path: String, val labelRes: Int) {
 }
 
 @Composable
-fun JarvisApp() {
+fun JarvisApp(store: SettingsStore) {
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val current = backStack?.destination?.route
@@ -56,9 +57,9 @@ fun JarvisApp() {
             startDestination = Route.Dashboard.path,
             modifier = Modifier.padding(padding),
         ) {
-            composable(Route.Dashboard.path) { DashboardScreen() }
+            composable(Route.Dashboard.path) { DashboardScreen(store) }
             composable(Route.Chat.path) { ChatScreen() }
-            composable(Route.Settings.path) { SettingsScreen() }
+            composable(Route.Settings.path) { SettingsScreen(store) }
         }
     }
 }
