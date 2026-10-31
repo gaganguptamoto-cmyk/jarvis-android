@@ -19,6 +19,7 @@ import com.jarvis.assistant.core.SettingsStore
 import com.jarvis.assistant.ui.screens.ChatScreen
 import com.jarvis.assistant.ui.screens.DashboardScreen
 import com.jarvis.assistant.ui.screens.SettingsScreen
+import com.jarvis.assistant.voice.VoiceHub
 
 enum class Route(val path: String, val labelRes: Int) {
     Dashboard("dashboard", R.string.nav_dashboard),
@@ -27,7 +28,7 @@ enum class Route(val path: String, val labelRes: Int) {
 }
 
 @Composable
-fun JarvisApp(store: SettingsStore) {
+fun JarvisApp(store: SettingsStore, hub: VoiceHub) {
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val current = backStack?.destination?.route
@@ -57,9 +58,9 @@ fun JarvisApp(store: SettingsStore) {
             startDestination = Route.Dashboard.path,
             modifier = Modifier.padding(padding),
         ) {
-            composable(Route.Dashboard.path) { DashboardScreen(store) }
-            composable(Route.Chat.path) { ChatScreen(store) }
-            composable(Route.Settings.path) { SettingsScreen(store) }
+            composable(Route.Dashboard.path) { DashboardScreen(store, hub) }
+            composable(Route.Chat.path) { ChatScreen(store, hub) }
+            composable(Route.Settings.path) { SettingsScreen(store, hub) }
         }
     }
 }

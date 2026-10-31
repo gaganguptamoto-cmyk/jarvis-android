@@ -32,9 +32,10 @@ import androidx.compose.ui.unit.dp
 import com.jarvis.assistant.R
 import com.jarvis.assistant.core.SecureKeyStore
 import com.jarvis.assistant.core.SettingsStore
+import com.jarvis.assistant.voice.VoiceHub
 
 @Composable
-fun SettingsScreen(store: SettingsStore) {
+fun SettingsScreen(store: SettingsStore, hub: VoiceHub) {
     val context = LocalContext.current
     val keyStore = remember { SecureKeyStore(context.applicationContext) }
     var hasKey by remember { mutableStateOf(keyStore.hasApiKey()) }
@@ -58,6 +59,7 @@ fun SettingsScreen(store: SettingsStore) {
         Spacer(Modifier.height(16.dp))
         SwitchRow(R.string.settings_dark_theme, store.darkTheme) { store.updateDarkTheme(it) }
         SwitchRow(R.string.settings_animations, store.animations) { store.updateAnimations(it) }
+        VoiceSettingsSection(store, hub)
 
         Spacer(Modifier.height(16.dp))
         Text(

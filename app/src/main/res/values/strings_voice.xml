@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_ai_value_ready">Ready. Add your Gemini key in Settings, then chat.</string>
+    <string name="status_voice_value_ready">Ready. Use Speak in Chat. The mic works only while you use it.</string>
+
+    <string name="chat_mic">Speak</string>
+    <string name="chat_mic_done">Done</string>
+    <string name="chat_stop_speaking">Stop voice</string>
+    <string name="chat_listening_wait">Listening...</string>
+
+    <string name="voice_title">Voice</string>
+    <string name="voice_language">Voice language</string>
+    <string name="voice_lang_hi">Hindi / Hinglish</string>
+    <string name="voice_lang_en">English (India)</string>
+    <string name="voice_speak_replies">Speak replies to voice questions</string>
+    <string name="voice_speed">Speed: %1$s</string>
+    <string name="voice_volume">Volume: %1$s</string>
+    <string name="voice_test">Test voice</string>
+    <string name="voice_test_hi">नमस्ते, मैं जार्विस हूँ। मैं आपकी मदद के लिए तैयार हूँ।</string>
+    <string name="voice_test_en">Hello, I am JARVIS. I am ready to help you.</string>
+
+    <string name="voice_err_no_permission">Microphone permission is off. Allow it in phone Settings, Apps, JARVIS, Permissions.</string>
+    <string name="voice_err_not_available">Speech recognition is not available on this phone. It needs the Google app or Speech Services.</string>
+    <string name="voice_err_no_match">I could not hear you. Tap Speak and try again.</string>
+    <string name="voice_err_network">Speech recognition needs internet right now. Check your connection.</string>
+    <string name="voice_err_busy">The microphone is busy. Try again.</string>
+    <string name="voice_err_other">Voice problem. Try again.</string>
+    <string name="voice_err_tts_not_ready">The voice engine is not ready yet. Try again in a moment.</string>
+    <string name="voice_err_tts_language">This voice language is not installed. Install it in phone Settings, Text-to-speech.</string>
+</resources>

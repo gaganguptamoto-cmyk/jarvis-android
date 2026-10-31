@@ -1,5 +1,9 @@
 package com.jarvis.assistant.ui.screens
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.jarvis.assistant.R
 import com.jarvis.assistant.ai.AiError
 import com.jarvis.assistant.ai.AiMessage
@@ -43,7 +48,18 @@ import com.jarvis.assistant.ai.GeminiProvider
 import com.jarvis.assistant.core.ChatStore
 import com.jarvis.assistant.core.SecureKeyStore
 import com.jarvis.assistant.core.SettingsStore
+import com.jarvis.assistant.ui.components.OrbState
+import com.jarvis.assistant.voice.VoiceError
+import com.jarvis.assistant.voice.VoiceHub
+import com.jarvis.assistant.voice.voiceErrorRes
 import kotlinx.coroutines.launch
+
+private const val HINT_HI =
+    "\n\n[Voice reply: keep it short and natural. Write Hindi words in Devanagari and " +
+        "English words in Roman letters. No markdown, no emojis, no bullet symbols.]"
+private const val HINT_EN =
+    "\n\n[Voice reply: keep it short and natural, in simple English. " +
+        "No markdown, no emojis, no bullet symbols.]"
 
 private data class UiMessage(
     val text: String,
@@ -65,7 +81,7 @@ private fun errorRes(error: AiError): Int = when (error) {
 }
 
 @Composable
-fun ChatScreen(store: SettingsStore) {
+fun ChatScreen(store: SettingsStore, hub: VoiceHub) {
     val context = LocalContext.current
     val chatStore = remember { ChatStore(context.applicationContext) }
     val keyStore = remember { SecureKeyStore(context.applicationContext) }
@@ -86,28 +102,77 @@ fun ChatScreen(store: SettingsStore) {
         if (messages.isNotEmpty()) listState.animateScrollToItem(messages.size - 1)
     }
 
-    fun send() {
-        val text = input.trim()
-        if (text.isEmpty() || loading) return
-        messages.add(UiMessage(text, true))
-        input = ""
+    fun send(text: String, spoken: Boolean) {
+        val clean = text.trim()
+        if (clean.isEmpty() || loading) return
+        messages.add(UiMessage(clean, true))
         loading = true
-        val history = messages
+        hub.setThinking(true)
+        val base = messages
             .filter { it.error == null }
             .takeLast(20)
             .map { AiMessage(it.fromUser, it.text) }
             .dropWhile { !it.fromUser }
+        val history = if (spoken && base.isNotEmpty()) {
+            val hint = if (store.voiceLanguage.startsWith("hi")) HINT_HI else HINT_EN
+            base.dropLast(1) + AiMessage(true, base.last().text + hint)
+        } else {
+            base
+        }
         scope.launch {
             when (val result = provider.chat(history)) {
-                is AiResult.Success -> messages.add(UiMessage(result.text, false))
-                is AiResult.Failure ->
+                is AiResult.Success -> {
+                    messages.add(UiMessage(result.text, false))
+                    if (spoken && store.speakReplies) {
+                        hub.speak(result.text)
+                    } else {
+                        hub.setThinking(false)
+                    }
+                }
+                is AiResult.Failure -> {
                     messages.add(UiMessage("", false, result.kind, result.detail))
+                    hub.setThinking(false)
+                }
             }
             chatStore.save(
                 messages.filter { it.error == null }.map { AiMessage(it.fromUser, it.text) },
             )
             loading = false
         }
+    }
+
+    fun startVoice() {
+        hub.listen { heard -> send(heard, true) }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        if (granted) startVoice() else hub.reportError(VoiceError.NoPermission)
+    }
+
+    fun onMicClick() {
+        when (hub.state) {
+            OrbState.Listening -> hub.stopListening()
+            OrbState.Speaking -> hub.stopSpeaking()
+            else -> {
+                val granted = ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.RECORD_AUDIO,
+                ) == PackageManager.PERMISSION_GRANTED
+                if (granted) {
+                    startVoice()
+                } else {
+                    permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                }
+            }
+        }
+    }
+
+    val micLabel = when (hub.state) {
+        OrbState.Listening -> R.string.chat_mic_done
+        OrbState.Speaking -> R.string.chat_stop_speaking
+        else -> R.string.chat_mic
     }
 
     Column(Modifier.fillMaxSize().imePadding()) {
@@ -138,11 +203,29 @@ fun ChatScreen(store: SettingsStore) {
                 items(messages) { MessageBubble(it) }
             }
         }
+        if (hub.state == OrbState.Listening) {
+            Text(
+                text = if (hub.partialText.isBlank()) {
+                    stringResource(R.string.chat_listening_wait)
+                } else {
+                    hub.partialText
+                },
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.primary,
+            )
+        }
         if (loading) {
             Text(
                 text = stringResource(R.string.chat_thinking),
                 modifier = Modifier.padding(horizontal = 16.dp),
                 color = MaterialTheme.colorScheme.primary,
+            )
+        }
+        hub.lastError?.let {
+            Text(
+                text = stringResource(voiceErrorRes(it)),
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.error,
             )
         }
         Row(
@@ -157,9 +240,23 @@ fun ChatScreen(store: SettingsStore) {
                 maxLines = 4,
             )
             Spacer(Modifier.width(8.dp))
-            Button(onClick = { send() }, enabled = !loading) {
+            Button(
+                onClick = {
+                    val typed = input
+                    input = ""
+                    send(typed, false)
+                },
+                enabled = !loading,
+            ) {
                 Text(stringResource(R.string.chat_send))
             }
+        }
+        Button(
+            onClick = { onMicClick() },
+            enabled = !loading,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+        ) {
+            Text(stringResource(micLabel))
         }
     }
 }

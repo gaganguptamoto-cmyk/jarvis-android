@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_ai_value_ready">तैयार। सेटिंग्स में Gemini key जोड़ें, फिर चैट करें।</string>
+    <string name="status_voice_value_ready">तैयार। चैट में बोलें दबाएँ। माइक सिर्फ़ तभी चलता है जब आप इस्तेमाल करें।</string>
+
+    <string name="chat_mic">बोलें</string>
+    <string name="chat_mic_done">हो गया</string>
+    <string name="chat_stop_speaking">आवाज़ रोकें</string>
+    <string name="chat_listening_wait">सुन रहा है...</string>
+
+    <string name="voice_title">आवाज़</string>
+    <string name="voice_language">आवाज़ की भाषा</string>
+    <string name="voice_lang_hi">हिंदी / हिंग्लिश</string>
+    <string name="voice_lang_en">English (India)</string>
+    <string name="voice_speak_replies">बोलकर पूछे सवालों के जवाब बोलें</string>
+    <string name="voice_speed">गति: %1$s</string>
+    <string name="voice_volume">आवाज़ का स्तर: %1$s</string>
+    <string name="voice_test">आवाज़ जाँचें</string>
+
+    <string name="voice_err_no_permission">माइक की अनुमति बंद है। फ़ोन की सेटिंग्स, ऐप्स, JARVIS, अनुमतियाँ में चालू करें।</string>
+    <string name="voice_err_not_available">इस फ़ोन पर स्पीच रिकग्निशन उपलब्ध नहीं है। इसके लिए Google ऐप या Speech Services चाहिए।</string>
+    <string name="voice_err_no_match">मैं सुन नहीं पाया। बोलें दबाकर फिर कोशिश करें।</string>
+    <string name="voice_err_network">अभी स्पीच रिकग्निशन के लिए इंटरनेट चाहिए। कनेक्शन जाँचें।</string>
+    <string name="voice_err_busy">माइक व्यस्त है। फिर कोशिश करें।</string>
+    <string name="voice_err_other">आवाज़ में समस्या आई। फिर कोशिश करें।</string>
+    <string name="voice_err_tts_not_ready">आवाज़ इंजन अभी तैयार नहीं है। थोड़ी देर में फिर कोशिश करें।</string>
+    <string name="voice_err_tts_language">यह आवाज़ की भाषा इंस्टॉल नहीं है। फ़ोन सेटिंग्स, Text-to-speech में इंस्टॉल करें।</string>
+</resources>
