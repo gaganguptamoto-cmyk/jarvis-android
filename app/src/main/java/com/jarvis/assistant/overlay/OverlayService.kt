@@ -467,7 +467,7 @@ class OverlayService : Service() {
             OrbState.Listening -> hub.stopListening()
             OrbState.Speaking -> hub.stopSpeaking()
             OrbState.Thinking -> {}
-            else -> if (!loading) hub.listen { heard -> send(heard, true) }
+            else -> if (!loading) hub.startHandsFree { heard -> send(heard, true) }
         }
     }
 

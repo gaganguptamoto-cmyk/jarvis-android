@@ -71,12 +71,12 @@ object CommandRouter {
             }
         }
 
-        if (t in HOME) return global(AccessibilityService.GLOBAL_ACTION_HOME, "होम पर आ गया।")
-        if (t in BACK) return global(AccessibilityService.GLOBAL_ACTION_BACK, "पीछे आ गया।")
-        if (t in RECENTS) return global(AccessibilityService.GLOBAL_ACTION_RECENTS, "रीसेंट्स खोल दिए।")
+        if (core(t) in HOME_CORE) return global(AccessibilityService.GLOBAL_ACTION_HOME, "होम पर आ गया।")
+        if (core(t) in BACK_CORE) return global(AccessibilityService.GLOBAL_ACTION_BACK, "पीछे आ गया।")
+        if (core(t) in RECENT_CORE) return global(AccessibilityService.GLOBAL_ACTION_RECENTS, "रीसेंट्स खोल दिए।")
         if (t in READ) return readScreen()
-        if (t in DOWN) return scroll(true)
-        if (t in UP) return scroll(false)
+        if (scrollWords(t) == 1) return scroll(true)
+        if (scrollWords(t) == 2) return scroll(false)
 
         OPEN_PREFIX.matchEntire(clean)?.let { m ->
             return openApp(context, m.groupValues[1], "", true)
@@ -166,5 +166,29 @@ object CommandRouter {
         val s = service() ?: return null
         if (!s.hasInputFocus()) return null
         return if (s.typeText(text)) "लिख दिया।" else "यहाँ नहीं लिख पाया।"
+    }
+
+    private val FILLER = setOf(
+        "jarvis", "please", "plz", "mujhe", "ab", "ko", "par", "pe", "per", "the", "to",
+        "go", "take", "me", "jao", "jaao", "ja", "chalo", "karo", "kar", "do", "de",
+        "lo", "le", "bhai", "yaar", "screen",
+        "पर", "पे", "को", "जरा", "ज़रा", "अब", "मुझे", "दो", "जाओ", "जा", "चलो",
+        "करो", "कर", "ले", "चल", "जाइए", "चलिए", "भाई", "स्क्रीन",
+    )
+    private val HOME_CORE = setOf("home", "होम", "ghar", "घर")
+    private val BACK_CORE = setOf("back", "peeche", "पीछे", "wapas", "वापस")
+    private val RECENT_CORE = setOf("recents", "recent", "रीसेंट्स", "रीसेंट")
+
+    private fun core(t: String): String =
+        t.split(Regex("\\s+")).filter { it.isNotEmpty() && it !in FILLER }.joinToString(" ")
+
+    private fun scrollWords(t: String): Int {
+        val w = t.split(Regex("\\s+")).filter { it.isNotEmpty() }
+        if (w.size > 3) return 0
+        val sc = w.any { it == "scroll" || it == "स्क्रॉल" }
+        if (!sc && w.size != 1) return 0
+        if (w.any { it in setOf("down", "neeche", "niche", "नीचे") }) return 1
+        if (w.any { it in setOf("up", "upar", "ऊपर") }) return 2
+        return 0
     }
 }

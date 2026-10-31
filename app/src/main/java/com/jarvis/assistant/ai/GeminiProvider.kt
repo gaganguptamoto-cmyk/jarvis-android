@@ -30,7 +30,7 @@ class GeminiProvider(
             val body = JSONObject()
             body.put(
                 "systemInstruction",
-                JSONObject().put("parts", JSONArray().put(JSONObject().put("text", SYSTEM_PROMPT))),
+                JSONObject().put("parts", JSONArray().put(JSONObject().put("text", SYSTEM_PROMPT + EXTRA))),
             )
             val contents = JSONArray()
             history.forEach { m ->
@@ -107,6 +107,7 @@ class GeminiProvider(
     }
 
     private companion object {
+        const val EXTRA = " You cannot control the phone yourself. Never say you opened an app, went home or pressed anything. If the user wants a phone action, tell them briefly to say a short command like 'YouTube kholo', 'home', 'back', 'scroll down' or 'Search dabao'."
         const val SYSTEM_PROMPT =
             "You are JARVIS, a helpful personal assistant on the user's Android phone. " +
                 "Reply in the language the user writes in. If the user writes Hinglish " +

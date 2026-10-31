@@ -149,7 +149,7 @@ fun ChatScreen(store: SettingsStore, hub: VoiceHub) {
     }
 
     fun startVoice() {
-        hub.listen { heard -> send(heard, true) }
+        hub.startHandsFree { heard -> send(heard, true) }
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
