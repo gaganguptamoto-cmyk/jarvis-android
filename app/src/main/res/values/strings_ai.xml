@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_err_no_key">No API key found. Add your Gemini API key in Settings.</string>
+    <string name="ai_err_no_internet">No internet. Check your connection and try again.</string>
+    <string name="ai_err_invalid_key">The API key is wrong or not allowed. Check the key in Settings.</string>
+    <string name="ai_err_rate_limit">Too many requests (free limit reached). Try again in a while.</string>
+    <string name="ai_err_timeout">The reply took too long. Try again.</string>
+    <string name="ai_err_server">The AI server had a problem. Try again later.</string>
+    <string name="ai_err_bad_model">This model was not found. Check the model name in Settings.</string>
+    <string name="ai_err_empty">The AI gave an empty reply. Try asking again.</string>
+    <string name="ai_err_unknown">Something went wrong.</string>
+
+    <string name="chat_thinking">Thinking...</string>
+    <string name="chat_clear">Clear chat</string>
+
+    <string name="settings_ai_title">AI (Gemini)</string>
+    <string name="settings_api_key">Gemini API key</string>
+    <string name="settings_key_saved">API key saved (encrypted on this phone).</string>
+    <string name="settings_key_missing">No API key saved yet.</string>
+    <string name="settings_save">Save</string>
+    <string name="settings_remove">Remove key</string>
+    <string name="settings_model">Model name</string>
+    <string name="settings_model_hint">Model names change over time. If you see a model not found error, check aistudio.google.com for a current name.</string>
+</resources>

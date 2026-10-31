@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_err_no_key">API key नहीं मिली। सेटिंग्स में Gemini API key जोड़ें।</string>
+    <string name="ai_err_no_internet">इंटरनेट नहीं है। कनेक्शन जाँचकर फिर कोशिश करें।</string>
+    <string name="ai_err_invalid_key">API key ग़लत है या अनुमति नहीं है। सेटिंग्स में key जाँचें।</string>
+    <string name="ai_err_rate_limit">बहुत ज़्यादा अनुरोध हो गए (मुफ़्त सीमा)। थोड़ी देर बाद कोशिश करें।</string>
+    <string name="ai_err_timeout">जवाब आने में बहुत देर लगी। दोबारा कोशिश करें।</string>
+    <string name="ai_err_server">AI सर्वर में समस्या आई। बाद में कोशिश करें।</string>
+    <string name="ai_err_bad_model">यह मॉडल नहीं मिला। सेटिंग्स में मॉडल का नाम जाँचें।</string>
+    <string name="ai_err_empty">AI ने खाली जवाब दिया। दोबारा पूछें।</string>
+    <string name="ai_err_unknown">कुछ गड़बड़ हुई।</string>
+
+    <string name="chat_thinking">सोच रहा है...</string>
+    <string name="chat_clear">चैट साफ़ करें</string>
+
+    <string name="settings_ai_title">AI (Gemini)</string>
+    <string name="settings_api_key">Gemini API key</string>
+    <string name="settings_key_saved">API key सेव है (इस फ़ोन पर एन्क्रिप्टेड)।</string>
+    <string name="settings_key_missing">अभी कोई API key सेव नहीं है।</string>
+    <string name="settings_save">सेव करें</string>
+    <string name="settings_remove">key हटाएँ</string>
+    <string name="settings_model">मॉडल का नाम</string>
+    <string name="settings_model_hint">मॉडल के नाम समय के साथ बदलते हैं। अगर मॉडल नहीं मिलने का error आए, तो aistudio.google.com पर चालू नाम देखें।</string>
+</resources>

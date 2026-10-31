@@ -58,7 +58,7 @@ fun JarvisApp(store: SettingsStore) {
             modifier = Modifier.padding(padding),
         ) {
             composable(Route.Dashboard.path) { DashboardScreen(store) }
-            composable(Route.Chat.path) { ChatScreen() }
+            composable(Route.Chat.path) { ChatScreen(store) }
             composable(Route.Settings.path) { SettingsScreen(store) }
         }
     }
