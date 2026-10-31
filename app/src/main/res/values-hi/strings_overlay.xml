@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overlay_title">फ्लोटिंग असिस्टेंट</string>
+    <string name="overlay_perm_ok">ओवरले अनुमति: मिल गई</string>
+    <string name="overlay_perm_no">ओवरले अनुमति: अभी नहीं मिली</string>
+    <string name="overlay_allow">ओवरले अनुमति दें</string>
+    <string name="overlay_start">फ्लोटिंग JARVIS शुरू करें</string>
+    <string name="overlay_stop">फ्लोटिंग JARVIS बंद करें</string>
+    <string name="overlay_running">फ्लोटिंग JARVIS चल रहा है।</string>
+    <string name="overlay_info">चलते समय एक नोटिफ़िकेशन दिखता है। माइक सिर्फ़ तभी चलता है जब आप इस्तेमाल करें। टाइप करने के लिए गोले पर दबाएँ, बोलने के लिए देर तक दबाएँ, और कहीं भी खींचकर रखें।</string>
+    <string name="overlay_mic_needed">शुरू करने के लिए माइक की अनुमति चाहिए।</string>
+    <string name="overlay_hint">कमांड लिखें...</string>
+    <string name="overlay_welcome">ऑनलाइन। नीचे लिखें या MIC दबाकर बोलें। खोले बिना बोलने के लिए गोले को देर तक दबाएँ।</string>
+    <string name="overlay_notif_channel">फ्लोटिंग JARVIS</string>
+    <string name="overlay_notif_title">JARVIS चल रहा है</string>
+    <string name="overlay_notif_text">ऐप खोलने के लिए दबाएँ</string>
+    <string name="overlay_notif_stop">बंद करें</string>
+    <string name="overlay_start_failed">फ्लोटिंग असिस्टेंट शुरू नहीं हो पाया। माइक की अनुमति जाँचें।</string>
+</resources>

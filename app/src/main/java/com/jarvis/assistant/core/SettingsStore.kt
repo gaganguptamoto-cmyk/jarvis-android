@@ -86,5 +86,13 @@ class SettingsStore(context: Context) {
 
     companion object {
         const val DEFAULT_MODEL = "gemini-2.5-flash"
+
+        @Volatile
+        private var instance: SettingsStore? = null
+
+        fun get(context: Context): SettingsStore =
+            instance ?: synchronized(this) {
+                instance ?: SettingsStore(context.applicationContext).also { instance = it }
+            }
     }
 }

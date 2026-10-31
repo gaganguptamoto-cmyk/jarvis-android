@@ -60,6 +60,7 @@ fun SettingsScreen(store: SettingsStore, hub: VoiceHub) {
         SwitchRow(R.string.settings_dark_theme, store.darkTheme) { store.updateDarkTheme(it) }
         SwitchRow(R.string.settings_animations, store.animations) { store.updateAnimations(it) }
         VoiceSettingsSection(store, hub)
+        OverlayControls()
 
         Spacer(Modifier.height(16.dp))
         Text(

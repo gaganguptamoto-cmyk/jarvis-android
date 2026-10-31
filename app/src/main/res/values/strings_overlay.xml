@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overlay_title">Floating assistant</string>
+    <string name="overlay_perm_ok">Overlay permission: allowed</string>
+    <string name="overlay_perm_no">Overlay permission: not allowed yet</string>
+    <string name="overlay_allow">Allow overlay permission</string>
+    <string name="overlay_start">Start floating JARVIS</string>
+    <string name="overlay_stop">Stop floating JARVIS</string>
+    <string name="overlay_running">Floating JARVIS is running.</string>
+    <string name="overlay_info">A notification shows while it runs. The mic works only when you use it. Tap the circle to type, long-press it to speak, drag it anywhere.</string>
+    <string name="overlay_mic_needed">Microphone permission is needed to start.</string>
+    <string name="overlay_hint">type a command...</string>
+    <string name="overlay_welcome">online. Type below or tap MIC to speak. Long-press the circle to speak without opening.</string>
+    <string name="overlay_notif_channel">Floating JARVIS</string>
+    <string name="overlay_notif_title">JARVIS is running</string>
+    <string name="overlay_notif_text">Tap to open the app</string>
+    <string name="overlay_notif_stop">Stop</string>
+    <string name="overlay_start_failed">Could not start the floating assistant. Check microphone permission.</string>
+</resources>

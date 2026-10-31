@@ -16,7 +16,7 @@
     <string name="status_voice_title">Voice</string>
     <string name="status_voice_value">Not available yet (Phase 6)</string>
     <string name="status_overlay_title">Floating assistant</string>
-    <string name="status_overlay_value">Not available yet (Phase 7)</string>
+    <string name="status_overlay_value">Ready. Start it from Settings.</string>
     <string name="status_automation_title">Phone automation</string>
     <string name="status_automation_value">Not available yet (Phase 8)</string>
 
