@@ -31,7 +31,7 @@ class JarvisAccessibilityService : AccessibilityService() {
     fun go(action: Int): Boolean = performGlobalAction(action)
 
     // Topmost app window that is not JARVIS itself (overlay panel can become "active").
-    private fun targetRoot(): AccessibilityNodeInfo? {
+    fun targetRoot(): AccessibilityNodeInfo? {
         val own = packageName
         for (w in windows) {
             if (w.type != AccessibilityWindowInfo.TYPE_APPLICATION) continue

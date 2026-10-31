@@ -115,6 +115,8 @@ class OverlayService : Service() {
         wm = getSystemService(WINDOW_SERVICE) as WindowManager
         store = SettingsStore.get(applicationContext)
         hub = VoiceHub(applicationContext, store)
+        hub.trace = { appendLine("# ", it, GREEN) }
+        CommandRouter.notifyOverlay = { msg -> session.add(AiMessage(false, msg)); lastReply = msg; appendLine("jarvis> ", msg, GREEN); if (store.speakReplies) hub.speakNow(msg) }
         val keyStore = SecureKeyStore(applicationContext)
         provider = GeminiProvider(
             apiKey = { keyStore.loadApiKey() },
@@ -148,6 +150,7 @@ class OverlayService : Service() {
     }
 
     override fun onDestroy() {
+        CommandRouter.notifyOverlay = null
         running = false
         handler.removeCallbacksAndMessages(null)
         scope.cancel()

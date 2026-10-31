@@ -18,13 +18,13 @@ class SpeechInput(context: Context) {
         onResult: (String) -> Unit,
         onFailure: (VoiceError) -> Unit,
     ) {
-        release()
+        recognizer?.cancel()
         if (!SpeechRecognizer.isRecognitionAvailable(appContext)) {
             onFailure(VoiceError.NotAvailable)
             return
         }
         val mySession = ++session
-        val r = SpeechRecognizer.createSpeechRecognizer(appContext)
+        val r = recognizer ?: SpeechRecognizer.createSpeechRecognizer(appContext)
         recognizer = r
         r.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {}
@@ -48,7 +48,12 @@ class SpeechInput(context: Context) {
 
             override fun onError(error: Int) {
                 if (mySession != session) return
-                onFailure(mapError(error))
+                val e = mapError(error)
+                if (e != VoiceError.NoMatch) {
+                    recognizer?.destroy()
+                    recognizer = null
+                }
+                onFailure(e)
             }
         })
 
