@@ -23,7 +23,7 @@ object AppLauncher {
         'त' to "t", 'थ' to "t", 'द' to "d", 'ध' to "d", 'न' to "n", 'ण' to "n",
         'प' to "p", 'फ' to "f", 'ब' to "b", 'भ' to "b", 'म' to "m",
         'य' to "y", 'र' to "r", 'ल' to "l", 'व' to "v", 'श' to "s", 'ष' to "s",
-        'स' to "s", 'ह' to "h", 'ज़' to "j", 'फ़' to "f",
+        'स' to "s", 'ह' to "h",
         'ा' to "a", 'ि' to "i", 'ी' to "i", 'ु' to "u", 'ू' to "u",
         'े' to "e", 'ै' to "e", 'ो' to "o", 'ौ' to "o", 'ॉ' to "o",
         'ं' to "n", 'ँ' to "n",
@@ -35,7 +35,7 @@ object AppLauncher {
             val m = MAP[ch]
             when {
                 m != null -> sb.append(m)
-                ch == '्' || ch == '़' || ch == '़' -> {}
+                ch == '्' || ch == '\u093C' -> {}
                 ch.isLetterOrDigit() -> sb.append(ch)
             }
         }
@@ -109,7 +109,8 @@ object AppLauncher {
             val launch = context.packageManager.getLaunchIntentForPackage(app.pkg)
                 ?: return Result.Failed
             launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            (JarvisAccessibilityService.instance ?: context).startActivity(launch)
+            val starter: Context = JarvisAccessibilityService.instance ?: context
+            starter.startActivity(launch)
             Result.Opened(app.label)
         } catch (e: Exception) {
             Result.Failed
