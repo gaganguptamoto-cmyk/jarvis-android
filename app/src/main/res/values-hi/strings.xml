@@ -18,7 +18,7 @@
     <string name="status_overlay_title">फ्लोटिंग असिस्टेंट</string>
     <string name="status_overlay_value">तैयार। सेटिंग्स से शुरू करें।</string>
     <string name="status_automation_title">फ़ोन ऑटोमेशन</string>
-    <string name="status_automation_value">अभी उपलब्ध नहीं (फेज़ 8)</string>
+    <string name="status_automation_value">तैयार। Settings में accessibility चालू करें।</string>
 
     <string name="chat_hint">संदेश लिखें</string>
     <string name="chat_send">भेजें</string>

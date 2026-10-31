@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="a11y_desc">Lets JARVIS open apps, tap buttons, scroll and read the screen when you ask. It never reads password fields.</string>
+    <string name="auto_title">Phone automation</string>
+    <string name="auto_on">Accessibility: ON</string>
+    <string name="auto_off">Accessibility: OFF</string>
+    <string name="auto_open">Open accessibility settings</string>
+    <string name="auto_info">To enable: Settings, Accessibility, Installed apps, JARVIS, turn on. If it is greyed out: Phone Settings, Apps, JARVIS, three dots (top right), Allow restricted settings. Then try again. Risky buttons (Send, Pay, Delete, Buy, Call) always ask you first.</string>
+</resources>

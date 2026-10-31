@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="a11y_desc">आपके कहने पर JARVIS ऐप खोल सकता है, बटन दबा सकता है, स्क्रॉल कर सकता है और स्क्रीन पढ़ सकता है। पासवर्ड वाले बॉक्स कभी नहीं पढ़ता।</string>
+    <string name="auto_title">फ़ोन ऑटोमेशन</string>
+    <string name="auto_on">Accessibility: चालू</string>
+    <string name="auto_off">Accessibility: बंद</string>
+    <string name="auto_open">Accessibility सेटिंग्स खोलें</string>
+    <string name="auto_info">चालू करने के लिए: Settings, Accessibility, Installed apps, JARVIS, चालू करें। अगर ग्रे दिखे: फ़ोन Settings, Apps, JARVIS, ऊपर तीन बिंदु, Allow restricted settings। फिर दोबारा कोशिश करें। जोखिम वाले बटन (Send, Pay, Delete, Buy, Call) दबाने से पहले JARVIS हमेशा पूछेगा।</string>
+</resources>

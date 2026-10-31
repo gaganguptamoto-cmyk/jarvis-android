@@ -18,7 +18,7 @@
     <string name="status_overlay_title">Floating assistant</string>
     <string name="status_overlay_value">Ready. Start it from Settings.</string>
     <string name="status_automation_title">Phone automation</string>
-    <string name="status_automation_value">Not available yet (Phase 8)</string>
+    <string name="status_automation_value">Ready. Turn on accessibility in Settings.</string>
 
     <string name="chat_hint">Type a message</string>
     <string name="chat_send">Send</string>
