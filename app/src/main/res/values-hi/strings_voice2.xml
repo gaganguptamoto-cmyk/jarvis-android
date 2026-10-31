@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="voice_pitch">पिच: %1$s (कम = भारी आवाज़)</string>
+    <string name="voice_pick">आवाज़ (ऑफ़लाइन, तुरंत, कोई सीमा नहीं)</string>
+    <string name="voice_auto">अपने-आप</string>
+    <string name="voice_refresh">आवाज़ें दोबारा खोजें</string>
+    <string name="voice_pick_hint">आवाज़ सुनने के लिए उस पर दबाएँ। और आवाज़ें: फ़ोन सेटिंग्स, Text-to-speech, Google, Install voice data।</string>
+</resources>

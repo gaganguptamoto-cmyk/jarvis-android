@@ -28,6 +28,12 @@ class SettingsStore(context: Context) {
     var speechVolume by mutableStateOf(prefs.getFloat("speech_volume", 1.0f))
         private set
 
+    var speechPitch by mutableStateOf(prefs.getFloat("speech_pitch", 0.9f))
+        private set
+
+    var voiceName by mutableStateOf(prefs.getString("voice_name", "") ?: "")
+        private set
+
     var speakReplies by mutableStateOf(prefs.getBoolean("speak_replies", true))
         private set
 
@@ -49,7 +55,13 @@ class SettingsStore(context: Context) {
 
     fun updateVoiceLanguage(value: String) {
         voiceLanguage = value
-        prefs.edit().putString("voice_lang", value).apply()
+        voiceName = ""
+        prefs.edit().putString("voice_lang", value).putString("voice_name", "").apply()
+    }
+
+    fun updateVoiceName(value: String) {
+        voiceName = value
+        prefs.edit().putString("voice_name", value).apply()
     }
 
     fun updateSpeechRate(value: Float) {
@@ -60,6 +72,11 @@ class SettingsStore(context: Context) {
     fun updateSpeechVolume(value: Float) {
         speechVolume = value
         prefs.edit().putFloat("speech_volume", value).apply()
+    }
+
+    fun updateSpeechPitch(value: Float) {
+        speechPitch = value
+        prefs.edit().putFloat("speech_pitch", value).apply()
     }
 
     fun updateSpeakReplies(value: Boolean) {

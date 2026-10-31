@@ -36,18 +36,49 @@ class SpeechOutput(
         }
     }
 
-    fun speak(text: String, languageTag: String, rate: Float, volume: Float): SpeakResult {
+    fun speak(
+        text: String,
+        languageTag: String,
+        rate: Float,
+        volume: Float,
+        pitch: Float,
+        voiceName: String,
+    ): SpeakResult {
         val engine = tts
         if (!ready || engine == null) return SpeakResult.NotReady
         val result = engine.setLanguage(Locale.forLanguageTag(languageTag))
         if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
             return SpeakResult.LanguageMissing
         }
+        if (voiceName.isNotBlank()) {
+            try {
+                engine.voices?.firstOrNull { it.name == voiceName }?.let { engine.setVoice(it) }
+            } catch (e: Exception) {
+                // keep the automatic voice if the chosen one cannot be loaded
+            }
+        }
         engine.setSpeechRate(rate)
+        engine.setPitch(pitch)
         val params = Bundle()
         params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume)
         engine.speak(clean(text), TextToSpeech.QUEUE_FLUSH, params, "jarvis-" + System.nanoTime())
         return SpeakResult.Ok
+    }
+
+    fun voicesFor(languageTag: String): List<String> {
+        val engine = tts
+        if (!ready || engine == null) return emptyList()
+        val wanted = Locale.forLanguageTag(languageTag)
+        return try {
+            engine.voices.orEmpty()
+                .filter { it.locale.language == wanted.language }
+                .filter { wanted.language == "hi" || it.locale.country == wanted.country }
+                .filter { !it.isNetworkConnectionRequired }
+                .sortedByDescending { it.quality }
+                .map { it.name }
+        } catch (e: Exception) {
+            emptyList()
+        }
     }
 
     fun stop() {

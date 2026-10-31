@@ -53,7 +53,15 @@ class VoiceHub(context: Context, private val settings: SettingsStore) {
 
     fun speak(text: String) {
         lastError = null
-        when (output.speak(text, settings.voiceLanguage, settings.speechRate, settings.speechVolume)) {
+        val result = output.speak(
+            text = text,
+            languageTag = settings.voiceLanguage,
+            rate = settings.speechRate,
+            volume = settings.speechVolume,
+            pitch = settings.speechPitch,
+            voiceName = settings.voiceName,
+        )
+        when (result) {
             SpeakResult.Ok -> state = OrbState.Speaking
             SpeakResult.NotReady -> {
                 lastError = VoiceError.TtsNotReady
@@ -65,6 +73,8 @@ class VoiceHub(context: Context, private val settings: SettingsStore) {
             }
         }
     }
+
+    fun availableVoices(): List<String> = output.voicesFor(settings.voiceLanguage)
 
     fun stopSpeaking() {
         output.stop()

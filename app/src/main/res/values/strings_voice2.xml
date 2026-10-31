@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="voice_pitch">Pitch: %1$s (lower = deeper)</string>
+    <string name="voice_pick">Voice (offline, instant, no limit)</string>
+    <string name="voice_auto">Automatic</string>
+    <string name="voice_refresh">Refresh voices</string>
+    <string name="voice_pick_hint">Tap a voice to hear it. More voices: phone Settings, Text-to-speech, Google, Install voice data.</string>
+</resources>
