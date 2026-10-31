@@ -42,8 +42,8 @@ fun SettingsScreen(store: SettingsStore) {
             color = MaterialTheme.colorScheme.primary,
         )
         Spacer(Modifier.height(16.dp))
-        SwitchRow(R.string.settings_dark_theme, store.darkTheme) { store.setDarkTheme(it) }
-        SwitchRow(R.string.settings_animations, store.animations) { store.setAnimations(it) }
+        SwitchRow(R.string.settings_dark_theme, store.darkTheme) { store.updateDarkTheme(it) }
+        SwitchRow(R.string.settings_animations, store.animations) { store.updateAnimations(it) }
         Spacer(Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.settings_language),

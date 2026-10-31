@@ -14,12 +14,12 @@ class SettingsStore(context: Context) {
     var animations by mutableStateOf(prefs.getBoolean("animations", true))
         private set
 
-    fun setDarkTheme(value: Boolean) {
+    fun updateDarkTheme(value: Boolean) {
         darkTheme = value
         prefs.edit().putBoolean("dark_theme", value).apply()
     }
 
-    fun setAnimations(value: Boolean) {
+    fun updateAnimations(value: Boolean) {
         animations = value
         prefs.edit().putBoolean("animations", value).apply()
     }
