@@ -62,6 +62,7 @@ object CommandRouter {
         "^(.+?)\\s+(?:dabao|daba do|daba|click karo|tap karo|दबाओ|दबा दो|दबा|क्लिक करो|टैप करो)$",
         RegexOption.IGNORE_CASE,
     )
+    private val TYPE_SUFFIX = Regex("^(.+?)\\s+(?:type karo|type kar do|type kar|likho|likh do|टाइप करो|लिखो)$", RegexOption.IGNORE_CASE)
     private val TYPE_PREFIX = Regex("^(?:type|likho|likh|लिखो|लिख)\\s+(.+)$", RegexOption.IGNORE_CASE)
 
     private val SEARCH_A = Regex(
@@ -233,6 +234,9 @@ object CommandRouter {
         }
         CLICK_SUFFIX.matchEntire(clean)?.let { m ->
             return clickLabel(m.groupValues[1].trim())
+        }
+        TYPE_SUFFIX.matchEntire(clean)?.let { m ->
+            return typeInto(m.groupValues[1])
         }
         TYPE_PREFIX.matchEntire(clean)?.let { m ->
             return typeInto(m.groupValues[1])

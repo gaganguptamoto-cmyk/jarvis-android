@@ -25,6 +25,17 @@ object AppLauncher {
         "सेटिंग्स" to "settings",
         "इंस्टाग्राम" to "instagram",
         "मैप्स" to "maps",
+        "स्पॉटिफाई" to "spotify",
+        "स्पोटिफाई" to "spotify",
+        "टेलीग्राम" to "telegram",
+        "स्नैपचैट" to "snapchat",
+        "नेटफ्लिक्स" to "netflix",
+        "अमेज़न" to "amazon",
+        "अमेजन" to "amazon",
+        "फ्लिपकार्ट" to "flipkart",
+        "पेटीएम" to "paytm",
+        "फोनपे" to "phonepe",
+        "जीमेल" to "gmail",
     )
 
     private fun normalize(s: String): String {
