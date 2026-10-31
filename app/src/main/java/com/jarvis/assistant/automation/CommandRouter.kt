@@ -157,7 +157,7 @@ object CommandRouter {
         val t = clean.lowercase()
         if (t.isEmpty()) return false
         val c = core(t)
-        return c in HOME_CORE || c in BACK_CORE || c in RECENT_CORE || t in READ ||
+        return PhoneControl.matches(clean, t) || c in HOME_CORE || c in BACK_CORE || c in RECENT_CORE || t in READ ||
             scrollWords(t) != 0 || OPEN_PREFIX.matches(clean) || OPEN_SUFFIX.matches(clean) ||
             CLICK_PREFIX.matches(clean) || CLICK_SUFFIX.matches(clean) ||
             TYPE_PREFIX.matches(clean) || bareSearch(t) || searchQuery(clean) != null
@@ -212,6 +212,7 @@ object CommandRouter {
         }
 
         val c = core(t)
+        PhoneControl.handle(context, clean, t)?.let { return it }
         if (c in HOME_CORE) return global(AccessibilityService.GLOBAL_ACTION_HOME, "होम पर आ गया।")
         if (c in BACK_CORE) return global(AccessibilityService.GLOBAL_ACTION_BACK, "पीछे आ गया।")
         if (c in RECENT_CORE) return global(AccessibilityService.GLOBAL_ACTION_RECENTS, "रीसेंट्स खोल दिए।")
