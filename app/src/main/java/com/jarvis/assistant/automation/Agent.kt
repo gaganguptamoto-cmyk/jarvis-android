@@ -70,6 +70,7 @@ object Agent {
             "Reply with ONE JSON object and nothing else, with these keys: action, target, text, app, dir, say. " +
             "Allowed actions: open_app (set app), tap (set target), type (set text, optionally target of a text box), " +
             "scroll (dir is up or down), enter (press the keyboard search or enter key), back, home, wait, " +
+            "tap_visual (set text to a short description of what to tap, use it ONLY when the screen has no useful numbered elements, such as a game or an app without labels), " +
             "done (goal finished), reply (answer a question or chat), ask (you need one missing detail). " +
             "Rules: do exactly one step per turn. Use only element numbers that appear on the current screen. " +
             "To start an app use open_app with its name, never hunt for icons. " +
@@ -90,6 +91,7 @@ object Agent {
     fun intercept(raw: String): String? {
         val t = raw.trim().lowercase().trimEnd('.', '!', '?', '।').trim()
         if (t.isEmpty()) return null
+        VisualTap.confirm(t)?.let { return it }
         val pd = pending
         if (pd != null) {
             pending = null
@@ -276,6 +278,31 @@ object Agent {
                         note("went home")
                         nap(1200)
                     }
+                    "tap_visual" -> {
+                        val desc = text.trim()
+                        if (desc.isEmpty()) {
+                            note("tap_visual failed: text must describe what to tap")
+                            nap(500)
+                            continue@loop
+                        }
+                        when (val spot = VisualTap.locate(p, sv, desc)) {
+                            is VisualTap.Spot.Found -> {
+                                if (isSensitive(desc)) {
+                                    VisualTap.askConfirm(spot.x, spot.y, desc)
+                                    finish("“$desc” संवेदनशील लग रहा है। दबाऊँ? हाँ या नहीं बोलो।")
+                                    return
+                                }
+                                val ok = VisualTap.tapWithMarker(sv, spot.x, spot.y)
+                                note(if (ok) "tapped by sight: '$desc'" else "tap by sight on '$desc' failed")
+                                nap(1500)
+                            }
+                            is VisualTap.Spot.NotFound -> {
+                                note("could not see '$desc' on the screenshot")
+                                nap(800)
+                            }
+                            is VisualTap.Spot.Error -> { finish(spot.message); return }
+                        }
+                    }
                     "wait" -> {
                         note("waited")
                         nap(2000)
@@ -371,7 +398,7 @@ object Agent {
     }
 
     private fun screenText(s: Snap): String {
-        if (s.els.isEmpty()) return "(no other app screen is open right now)"
+        if (s.els.isEmpty()) return "(no labelled elements are visible. If an app or a game is open, use tap_visual with a short description of what to tap)"
         val sb = StringBuilder("app: ").append(s.pkg).append("\n")
         s.els.forEachIndexed { i, e ->
             sb.append(i).append(" [").append(e.kind).append("] ")
