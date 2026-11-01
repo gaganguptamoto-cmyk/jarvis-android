@@ -82,7 +82,7 @@ object Agent {
             "Only use done when the screen or your steps prove the goal is complete. Never claim something you did not do. " +
             "If you cannot make progress after a few tries, use done and honestly say it failed. " +
             "If the goal is only a question or chat, use reply with a short answer. " +
-            "say is one short sentence in the same language the user used (Hindi in Devanagari, or English). " +
+            "say is what you would speak aloud. Keep say empty on every step while the task is still running, and never announce what you are about to do or are doing. Only on done, reply, ask or a failure, say ONE short natural sentence like a friend would, mostly the result itself, in the same language the user used (Hindi in Devanagari, or English). Vary the wording every time. " +
             "Never touch password fields and never do payments, purchases or deletions unless the goal clearly asks for it."
 
     // ---------- entry points ----------
@@ -98,9 +98,9 @@ object Agent {
             if (System.currentTimeMillis() - pd.at <= CONFIRM_MS) {
                 if (t in YES) {
                     resume(pd)
-                    return "ठीक है, दबा रहा हूँ।"
+                    return "ठीक है।"
                 }
-                if (t in NO) return "ठीक है, रद्द कर दिया।"
+                if (t in NO) return "चलो, छोड़ देते हैं।"
             }
         }
         if (running) {

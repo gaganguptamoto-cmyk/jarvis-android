@@ -232,7 +232,7 @@ object PhoneControl {
             val n = sv.findAnywhere(CLEAR_LABELS)
             late(if (n != null && sv.click(n)) "रीसेंट्स साफ़ कर दिए।" else "Clear all बटन नहीं मिला। रीसेंट्स खुले हैं, खुद साफ़ कर लो।")
         }, 1500)
-        return "रीसेंट्स खोल रहा हूँ, साफ़ करने की कोशिश करूँगा।"
+        return "एक सेकंड, साफ़ करता हूँ।"
     }
 
     private fun clearNotifs(): String {
@@ -242,7 +242,7 @@ object PhoneControl {
             val n = sv.findAnywhere(CLEAR_LABELS + listOf("Clear"))
             late(if (n != null && sv.click(n)) "नोटिफिकेशन साफ़ कर दिए।" else "Clear बटन नहीं मिला। नोटिफिकेशन खुले हैं।")
         }, 1200)
-        return "नोटिफिकेशन खोल रहा हूँ, साफ़ करने की कोशिश करूँगा।"
+        return "एक सेकंड, साफ़ करता हूँ।"
     }
 
     private fun volume(ctx: Context, dir: Int, ok: String): String = try {
@@ -282,7 +282,7 @@ object PhoneControl {
 
     private fun doSwipe(dir: String): String {
         val sv = svc() ?: return NEED
-        return if (sv.swipe(dir)) "स्वाइप कर दिया।" else "स्वाइप नहीं हो पाया।"
+        return if (sv.swipe(dir)) "हो गया।" else "स्वाइप नहीं हो पाया।"
     }
 
     private fun editAction(kind: String): String {

@@ -70,9 +70,9 @@ object VisualTap {
         if (t in YES) {
             val sv = JarvisAccessibilityService.instance ?: return "Accessibility बंद हो गई।"
             Thread { tapWithMarker(sv, pd.x, pd.y) }.start()
-            return "ठीक है, दबा रहा हूँ।"
+            return "ठीक है।"
         }
-        if (t in NO) return "ठीक है, रद्द कर दिया।"
+        if (t in NO) return "चलो, छोड़ देते हैं।"
         return null
     }
 

@@ -125,7 +125,7 @@ object CommandRouter {
         val s = service() ?: return NEED_A11Y
         if (!s.hasTarget()) return NO_SCREEN
         SearchFlow.run(q) { late(it) }
-        return "“$q” खोजने की कोशिश कर रहा हूँ।"
+        return "ठीक है, “$q” ढूँढते हैं।"
     }
 
     private fun startBareSearch(): String {
@@ -133,7 +133,7 @@ object CommandRouter {
         if (!s.hasTarget()) return NO_SCREEN
         SearchFlow.openOnly { late(it) }
         awaitQuery = System.currentTimeMillis()
-        return "सर्च खोल रहा हूँ। क्या खोजूँ?"
+        return "क्या ढूँढूँ?"
     }
 
     private fun restNote(rest: String): String {
@@ -199,7 +199,7 @@ object CommandRouter {
             pending = null
             if (System.currentTimeMillis() - p.at <= CONFIRM_MS) {
                 if (t in YES) return p.run()
-                if (t in NO) return "ठीक है, रद्द कर दिया।"
+                if (t in NO) return "चलो, छोड़ देते हैं।"
             }
         }
 
@@ -207,7 +207,7 @@ object CommandRouter {
             val fresh = System.currentTimeMillis() - awaitQuery <= CONFIRM_MS
             awaitQuery = 0L
             if (fresh) {
-                if (t in NO) return "ठीक है, रद्द कर दिया।"
+                if (t in NO) return "चलो, छोड़ देते हैं।"
                 return startSearch(clean)
             }
         }
@@ -262,14 +262,14 @@ object CommandRouter {
     private fun scroll(forward: Boolean): String {
         val s = service() ?: return NEED_A11Y
         if (!s.hasTarget()) return NO_SCREEN
-        return if (s.scroll(forward)) "स्क्रॉल कर दिया।" else "स्क्रॉल होने लायक कुछ नहीं मिला।"
+        return if (s.scroll(forward)) "हो गया।" else "स्क्रॉल होने लायक कुछ नहीं मिला।"
     }
 
     private fun openApp(context: Context, app: String, rest: String, explicit: Boolean): String? {
         val name = app.trim().removePrefix("the ").removeSuffix(" app").trim()
         if (name.isEmpty() || !short(name)) return null
         return when (val r = AppLauncher.open(context, name)) {
-            is AppLauncher.Result.Opened -> "${r.label} खोल दिया।" + restNote(rest)
+            is AppLauncher.Result.Opened -> "लो, ${r.label} खुल गया।" + restNote(rest)
             is AppLauncher.Result.Many ->
                 "कई apps मिले: ${r.labels.joinToString(", ")}। पूरा नाम बोलो।"
             AppLauncher.Result.NotFound ->
