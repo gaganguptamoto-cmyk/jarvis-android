@@ -1,5 +1,6 @@
 package com.jarvis.assistant.overlay
 
+import com.jarvis.assistant.automation.Agent
 import com.jarvis.assistant.automation.CommandRouter
 import android.app.Notification
 import android.app.NotificationChannel
@@ -116,6 +117,8 @@ class OverlayService : Service() {
         store = SettingsStore.get(applicationContext)
         hub = VoiceHub(applicationContext, store)
         hub.trace = { appendLine("# ", it, GREEN) }
+        Agent.trace = { appendLine("# ", it, GREEN) }
+        Agent.providerGetter = { provider as? GeminiProvider }
         CommandRouter.notifyOverlay = { msg -> session.add(AiMessage(false, msg)); lastReply = msg; appendLine("jarvis> ", msg, GREEN); if (store.speakReplies) hub.speakNow(msg) }
         val keyStore = SecureKeyStore(applicationContext)
         provider = GeminiProvider(

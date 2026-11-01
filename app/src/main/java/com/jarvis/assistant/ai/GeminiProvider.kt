@@ -11,8 +11,8 @@ import java.net.URL
 import java.net.UnknownHostException
 
 class GeminiProvider(
-    private val apiKey: () -> String?,
-    private val model: () -> String,
+    val apiKey: () -> String?,
+    val model: () -> String,
 ) : AiProvider {
 
     override suspend fun chat(history: List<AiMessage>): AiResult = withContext(Dispatchers.IO) {

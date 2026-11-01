@@ -48,7 +48,7 @@ object SearchFlow {
         tries: Int,
         done: (String) -> Unit,
     ) {
-        if (s.typeText(query)) {
+        if (s.typeText(Hinglish.convert(query))) {
             main.postDelayed({
                 if (s.pressEnter()) {
                     done("“$query” लिखकर Enter दबा दिया।")

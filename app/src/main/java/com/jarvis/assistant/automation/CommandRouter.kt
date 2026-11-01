@@ -157,7 +157,7 @@ object CommandRouter {
         val t = clean.lowercase()
         if (t.isEmpty()) return false
         val c = core(t)
-        return PhoneControl.matches(clean, t) || c in HOME_CORE || c in BACK_CORE || c in RECENT_CORE || t in READ ||
+        return PhoneControl.matches(clean, t) || ChatCommands.matches(t, clean) || c in HOME_CORE || c in BACK_CORE || c in RECENT_CORE || t in READ ||
             scrollWords(t) != 0 || OPEN_PREFIX.matches(clean) || OPEN_SUFFIX.matches(clean) ||
             CLICK_PREFIX.matches(clean) || CLICK_SUFFIX.matches(clean) ||
             TYPE_PREFIX.matches(clean) || bareSearch(t) || searchQuery(clean) != null
@@ -165,12 +165,13 @@ object CommandRouter {
 
     /** Returns a reply if this was an automation command, or null to let the AI handle it. */
     fun handle(context: Context, raw: String): String? {
+        Agent.intercept(raw)?.let { return it }
         val parts = raw.trim().split(CHAIN).map { it.trim() }.filter { it.isNotEmpty() }
         if (parts.size >= 2 && parts.all { isCommand(it) }) {
             step(context.applicationContext, parts, 0, mutableListOf())
             return "ठीक है, ${parts.size} काम एक-एक करके करता हूँ।"
         }
-        return handleSingle(context, raw)
+        return handleSingle(context, raw) ?: Agent.maybeStart(context, raw)
     }
 
     private fun step(context: Context, parts: List<String>, i: Int, log: MutableList<String>) {
@@ -213,6 +214,7 @@ object CommandRouter {
 
         val c = core(t)
         PhoneControl.handle(context, clean, t)?.let { return it }
+        ChatCommands.handle(clean, t)?.let { return it }
         if (c in HOME_CORE) return global(AccessibilityService.GLOBAL_ACTION_HOME, "होम पर आ गया।")
         if (c in BACK_CORE) return global(AccessibilityService.GLOBAL_ACTION_BACK, "पीछे आ गया।")
         if (c in RECENT_CORE) return global(AccessibilityService.GLOBAL_ACTION_RECENTS, "रीसेंट्स खोल दिए।")
@@ -276,7 +278,7 @@ object CommandRouter {
         }
     }
 
-    private fun clickLabel(label: String): String? {
+    internal fun clickLabel(label: String): String? {
         if (label.isEmpty()) return null
         val s = service() ?: return if (short(label)) NEED_A11Y else null
         if (!s.hasTarget()) return if (short(label)) NO_SCREEN else null
@@ -301,6 +303,6 @@ object CommandRouter {
     private fun typeInto(text: String): String? {
         val s = service() ?: return null
         if (!s.hasInputFocus()) return null
-        return if (s.typeText(text)) "लिख दिया।" else "यहाँ नहीं लिख पाया।"
+        return if (s.typeText(Hinglish.convert(text))) "लिख दिया।" else "यहाँ नहीं लिख पाया।"
     }
 }
