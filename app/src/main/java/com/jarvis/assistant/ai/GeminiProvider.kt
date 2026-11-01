@@ -30,7 +30,7 @@ class GeminiProvider(
             val body = JSONObject()
             body.put(
                 "systemInstruction",
-                JSONObject().put("parts", JSONArray().put(JSONObject().put("text", SYSTEM_PROMPT + EXTRA))),
+                JSONObject().put("parts", JSONArray().put(JSONObject().put("text", SYSTEM_PROMPT + EXTRA + com.jarvis.assistant.automation.DeviceInfo.snapshot()))),
             )
             val contents = JSONArray()
             history.forEach { m ->

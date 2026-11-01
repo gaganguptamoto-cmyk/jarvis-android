@@ -71,6 +71,7 @@ object Agent {
             "Allowed actions: open_app (set app), tap (set target), type (set text, optionally target of a text box), " +
             "scroll (dir is up or down), enter (press the keyboard search or enter key), back, home, wait, " +
             "tap_visual (set text to a short description of what to tap, use it ONLY when the screen has no useful numbered elements, such as a game or an app without labels), " +
+            "draw (set text to a JSON array of strokes, each stroke an array of [x,y] points, x and y are fractions 0 to 1 of the full screen; keep the picture inside x 0.15-0.85 and y 0.3-0.75; use 3 to 8 strokes with 6 to 20 points each; use ONLY when asked to draw something and a drawing canvas is already open), " +
             "done (goal finished), reply (answer a question or chat), ask (you need one missing detail). " +
             "Rules: do exactly one step per turn. Use only element numbers that appear on the current screen. " +
             "To start an app use open_app with its name, never hunt for icons. " +
@@ -104,7 +105,7 @@ object Agent {
             }
         }
         if (running) {
-            if (t in STOP) {
+            if (t in STOP || t.split(Regex("\\s+")).any { it in STOP }) {
                 cancelled = true
                 running = false
                 return "रुक गया।"
@@ -143,7 +144,7 @@ object Agent {
         running = true
         val p = getter()
         Thread { loop(p) }.start()
-        return "ठीक है, कोशिश करता हूँ।"
+        return "ठीक है।"
     }
 
     private fun resume(pd: Pending) {
@@ -278,7 +279,11 @@ object Agent {
                         note("went home")
                         nap(1200)
                     }
-                    "tap_visual" -> {
+                    "draw" -> {
+                val ok = DrawTool.draw(text)
+                note(if (ok) "drew the strokes on the canvas" else "draw failed, the gesture was not accepted")
+            }
+            "tap_visual" -> {
                         val desc = text.trim()
                         if (desc.isEmpty()) {
                             note("tap_visual failed: text must describe what to tap")

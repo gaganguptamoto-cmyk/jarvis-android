@@ -147,7 +147,7 @@ object CommandRouter {
         val q = searchQuery(cleaned)
         if (q != null) {
             mainH.postDelayed({ SearchFlow.run(q) { late(it) } }, 2500)
-            return " फिर “$q” खोजने की कोशिश करूँगा, नतीजा बताता हूँ।"
+            return " फिर “$q” भी देखता हूँ।"
         }
         return " बाकी काम ($r) अभी ख़ुद नहीं कर सकता।"
     }
@@ -166,6 +166,13 @@ object CommandRouter {
     /** Returns a reply if this was an automation command, or null to let the AI handle it. */
     fun handle(context: Context, raw: String): String? {
         Agent.intercept(raw)?.let { return it }
+        if (System.currentTimeMillis() - chainAt < 15000L) {
+            val w = raw.trim().lowercase().trimEnd('.', '!', '?', '।').split(Regex("\\s+"))
+            if (w.size <= 2 && w.any { it in setOf("ruko", "stop", "bas", "रुको", "बस") }) {
+                chainStop = true
+                return "रुक गया।"
+            }
+        }
         val parts = raw.trim().split(CHAIN).map { it.trim() }.filter { it.isNotEmpty() }
         if (parts.size >= 2 && parts.all { isCommand(it) }) {
             step(context.applicationContext, parts, 0, mutableListOf())
@@ -174,7 +181,13 @@ object CommandRouter {
         return handleSingle(context, raw) ?: Agent.maybeStart(context, raw)
     }
 
+    @Volatile private var chainAt = 0L
+    @Volatile private var chainStop = false
+
     private fun step(context: Context, parts: List<String>, i: Int, log: MutableList<String>) {
+        chainAt = System.currentTimeMillis()
+        if (i == 0) chainStop = false
+        if (chainStop) return
         if (i >= parts.size) {
             late(log.joinToString(" "))
             return
@@ -213,6 +226,7 @@ object CommandRouter {
         }
 
         val c = core(t)
+        Extras.handle(context, clean, t, { s -> late(s) })?.let { return it }
         PhoneControl.handle(context, clean, t)?.let { return it }
         ChatCommands.handle(clean, t)?.let { return it }
         if (c in HOME_CORE) return global(AccessibilityService.GLOBAL_ACTION_HOME, "होम पर आ गया।")
