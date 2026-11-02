@@ -148,6 +148,11 @@ class OverlayService : Service() {
             built = true
             running = true
             handler.post(poll)
+            handler.postDelayed({
+                if (!loading && hub.state != OrbState.Listening) {
+                    hub.startHandsFree { heard -> send(heard, true) }
+                }
+            }, 1000)
         }
         return START_NOT_STICKY
     }

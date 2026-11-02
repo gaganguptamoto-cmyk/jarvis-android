@@ -110,6 +110,7 @@ object Agent {
                 running = false
                 return "रुक गया।"
             }
+            if (QUESTION.containsMatchIn(t)) return null
             return "अभी एक काम चल रहा है। रोकना हो तो 'ruko' बोलो।"
         }
         return null
