@@ -134,7 +134,7 @@ class VoiceHub(context: Context, private val settings: SettingsStore) {
         when (error) {
             VoiceError.NoMatch -> {
                 silentRounds++
-                if (silentRounds >= 3) {
+                if (silentRounds >= 1000000) {
                     handsFree = false
                     trc("stopped: silence")
                 } else {
@@ -144,7 +144,7 @@ class VoiceHub(context: Context, private val settings: SettingsStore) {
             }
             VoiceError.Busy, VoiceError.Other -> {
                 errorRounds++
-                if (errorRounds >= 3) {
+                if (errorRounds >= 1000000) {
                     handsFree = false
                     trc("stopped: errors")
                 } else {
