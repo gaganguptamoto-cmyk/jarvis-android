@@ -19,7 +19,7 @@ object Agent {
     var trace: ((String) -> Unit)? = null
     var providerGetter: (() -> GeminiProvider?)? = null
 
-    private const val MAX_STEPS = 12
+    private const val MAX_STEPS = 60
     private const val MAX_EL = 70
     private const val CONFIRM_MS = 30_000L
 
@@ -430,7 +430,7 @@ object Agent {
     private fun callGemini(p: GeminiProvider, userText: String): Reply {
         val key = p.apiKey()
         if (key.isNullOrBlank()) return Reply(null, "Gemini key सेट नहीं है। Settings में डालो।")
-        for (attempt in 1..2) {
+        for (attempt in 1..6) {
             var conn: HttpURLConnection? = null
             try {
                 val body = JSONObject()
@@ -463,8 +463,8 @@ object Agent {
                 if (code in 200..299) {
                     return parseReply(c.inputStream.bufferedReader().use { it.readText() })
                 }
-                if ((code == 429 || code >= 500) && attempt < 2) {
-                    Thread.sleep(2500)
+                if ((code == 429 || code >= 500) && attempt < 6) {
+                    Thread.sleep(2500L * attempt)
                     continue
                 }
                 return Reply(
@@ -478,6 +478,10 @@ object Agent {
                     },
                 )
             } catch (e: Exception) {
+                if (attempt < 6 && !cancelled) {
+                    try { Thread.sleep(2500L * attempt) } catch (t: Exception) { }
+                    continue
+                }
                 return Reply(null, "Gemini से बात नहीं हो पाई (${e.javaClass.simpleName})।")
             } finally {
                 conn?.disconnect()
